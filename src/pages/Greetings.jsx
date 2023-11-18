@@ -1,21 +1,22 @@
 import { useEffect } from 'react';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { useDispatch } from 'react-redux';
+import getGreeting from '../redux/getGreeting';
 
 const Greetings = () => {
-  const [greeting, setGreeting] = useState('Not Found');
+  const dispatch = useDispatch();
+  const { greeting } = useSelector((state) => state.greeting);
 
   useEffect(() => {
-    fetch('http://localhost:3000/greetings')
-      .then((response) => response.json())
-      .then((data) => setGreeting(data.message))
-      .catch((error) => console.log(error));
+    dispatch(getGreeting());
   }, []);
 
   return (
     <>
       <p>Random Greeting will be displayed below</p>
       <hr />
-      <h1>{greeting}</h1>
+      <h1>{greeting.message}</h1>
     </>
   );
 };
